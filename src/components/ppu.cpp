@@ -6,7 +6,7 @@ PPU::PPU(void) {
 	Graphics::Window::TITLE,
 	SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 	Graphics::Window::SCALE * Graphics::Window::ASPECT_RATIO, Graphics::Window::SCALE,
-	0
+	SDL_WINDOW_OPENGL
     );
 
     renderer = SDL_CreateRenderer(window, -1, 0);

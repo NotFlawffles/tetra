@@ -4,6 +4,7 @@
 #include "../../include/definitions/flags.hpp"
 #include "../../include/definitions/interrupts.hpp"
 #include "../../include/definitions/graphics.hpp"
+#include "../../include/definitions/user/opcodes.hpp"
 #include <iostream>
 #include <unistd.h>
 
@@ -83,6 +84,8 @@ void CPU::clock(void) {
 	update_video();
 	registers[Register::ST] ^= SOFTWARE_INTERRUPT;
     }
+
+    previous = memory;
 }
 
 void CPU::update_keyboard(void) {
@@ -209,7 +212,9 @@ void CPU::dec(void) {
 
 void CPU::clr(void) {
     for (int i = Memory::Segment::VIDEO; i < Memory::Segment::TEXT - 92; i++) {
-	memory[i] = 0;
+	if (previous[i] != memory[i]) {
+	    memory[i] = 0;
+	}
     }
 }
 

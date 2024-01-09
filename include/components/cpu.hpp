@@ -9,6 +9,7 @@
 class CPU {
     public:
     std::array<unsigned short, Memory::SIZE> memory = {0};
+    std::array<unsigned short, Memory::SIZE> previous = memory;
 
     std::array<unsigned short, Register::COUNT> registers = {
 	0, 0, 0, 0, 0, Memory::Segment::TEXT, Memory::Segment::STACK, 0

@@ -8,5 +8,5 @@ enum Flag {
     OVERFLOW           = 0b00010000,
     SOFTWARE_INTERRUPT = 0b00100000,
     HARDWARE_INTERRUPT = 0b01000000,
-    FLAGGED            = 0b10000000,
+    FLAGGED            = 0b10000000
 };

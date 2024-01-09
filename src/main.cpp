@@ -1,9 +1,10 @@
 #include "../include/components/cpu.hpp"
 #include "../include/components/register.hpp"
-#include "../include/definitions/instruction.hpp"
-#include "../include/definitions/graphics.hpp"
 #include "../include/definitions/flags.hpp"
 #include "../include/definitions/interrupts.hpp"
+#include "../include/definitions/graphics.hpp"
+#include "../include/definitions/user/opcodes.hpp"
+#include "../include/definitions/user/flags.hpp"
 
 using enum Graphics::Colors;
 
@@ -12,28 +13,29 @@ int main(void) {
     cpu.reset();
 
     cpu.load_program({
-	0x0200 | MOV, A, 40,
-	0x0200 | MOV, B, 45,
-	0x0200 | MOV, C, 50,
-	0x0200 | MOV, D, WHITE,
-	0x0200 | MOV, E, BLUE,
-	
-	0x0200 | MOV, ST, RUNNING,
-	CMP, A, C,
-	0x8600 | MOV, A, EXIT,
-	0x8600 | INT, SOFTWARE_INTERRUPT,
-
+	IMM | MOV, A, 90/2 - 1,
+	IMM | MOV, B, 90/2 - 1,
+	IMM | MOV, C, WHITE,
+	IMM | LD, D, 75,
+	IMM | CMP, D, 1,
+	FLG | ZER | INC, A,
+	MOV, ST, RUNNING,
+	IMM | LD, D, 76,
+	IMM | CMP, D, 1,
+	FLG | ZER | DEC, A,
+	MOV, ST, RUNNING,
+	IMM | LD, D, 77,
+	IMM | CMP, D, 1,
+	FLG | ZER | INC, B,
+	MOV, ST, RUNNING,
+	IMM | LD, D, 78,
+	IMM | CMP, D, 1,
+	FLG | ZER | DEC, B,
+	MOV, ST, RUNNING,
+	DRW, A, B, C,
+	DLY, 16,
 	CLR,
-	DRW, A, B, D, // A = left.x,  B = left.y
-	DRW, C, B, E, // C = right.x, B = right.y
-	
-	INC, A,
-	DEC, D,
-	0x0200 | CMP, D, BLACK,
-	0x8600 | MOV, D, BLUE,
-	0x0200 | DLY, 0xFFFF,
-
-	0x0200 | JMP, 15
+	IMM | JMP, 0
     });
 
     int code = cpu.run();
